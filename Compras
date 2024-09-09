@@ -1,0 +1,192 @@
+import java.util.Arrays;
+import java.util.List;
+
+public class Compras {
+
+    // Clase Cliente
+    public static class Cliente {
+        private String nombre;
+        private String direccion;
+
+        public Cliente(String nombre, String direccion) {
+            this.nombre = nombre;
+            this.direccion = direccion;
+        }
+        
+        //get's y set's
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public String getDireccion() {
+            return direccion;
+        }
+
+        public void setDireccion(String direccion) {
+            this.direccion = direccion;
+        }
+
+        @Override
+        public String toString() {
+            return "Cliente [Nombre=" + nombre + ", Dirección=" + direccion + "]";
+        }
+    }
+
+    // Clase Pedido
+    public static class Pedido {
+        private int numero;
+        private List<String> articulos;
+
+        public Pedido(int numero, List<String> articulos) {
+            this.numero = numero;
+            this.articulos = articulos;
+        }
+
+        //get's y set's
+        public int getNumero() {
+            return numero;
+        }
+
+        public void setNumero(int numero) {
+            this.numero = numero;
+        }
+
+        public List<String> getArticulos() {
+            return articulos;
+        }
+
+        public void setArticulos(List<String> articulos) {
+            this.articulos = articulos;
+        }
+
+        @Override
+        public String toString() {
+            return "Pedido [Número=" + numero + ", Artículos=" + articulos + "]";
+        }
+    }
+
+    // Clase Pago
+    public static class Pago {
+        private Cliente cliente;
+        private Pedido pedido;
+        private MetodoPago metodoPago;
+        private int cantidadProductos;
+
+        public enum MetodoPago {
+            TARJETA_CREDITO,
+            TARJETA_DEBITO,
+            PAYPAL,
+            TRANSFERENCIA_BANCARIA
+        }
+
+        public Pago(Cliente cliente, Pedido pedido, MetodoPago metodoPago, int cantidadProductos) {
+            this.cliente = cliente;
+            this.pedido = pedido;
+            this.metodoPago = metodoPago;
+            this.cantidadProductos = cantidadProductos;
+        }
+
+        public Cliente getCliente() {
+            return cliente;
+        }
+
+        public void setCliente(Cliente cliente) {
+            this.cliente = cliente;
+        }
+
+        public Pedido getPedido() {
+            return pedido;
+        }
+
+        public void setPedido(Pedido pedido) {
+            this.pedido = pedido;
+        }
+
+        public MetodoPago getMetodoPago() {
+            return metodoPago;
+        }
+
+        public void setMetodoPago(MetodoPago metodoPago) {
+            this.metodoPago = metodoPago;
+        }
+
+        public int getCantidadProductos() {
+            return cantidadProductos;
+        }
+
+        public void setCantidadProductos(int cantidadProductos) {
+            this.cantidadProductos = cantidadProductos;
+        }
+
+        @Override
+        public String toString() {
+            return "Pago [Cliente=" + cliente.getNombre() + ", Pedido Número=" + pedido.getNumero() +
+                   ", Método de Pago=" + metodoPago + ", Cantidad de Productos=" + cantidadProductos + "]";
+        }
+    }
+
+    // Clase Notificacion
+    public static class Notificacion {
+        private Pedido pedido;
+        private String correoElectronico;
+
+        public Notificacion(Pedido pedido, String correoElectronico) {
+            this.pedido = pedido;
+            this.correoElectronico = correoElectronico;
+        }
+
+        public Pedido getPedido() {
+            return pedido;
+        }
+
+        public void setPedido(Pedido pedido) {
+            this.pedido = pedido;
+        }
+
+        public String getCorreoElectronico() {
+            return correoElectronico;
+        }
+
+        public void setCorreoElectronico(String correoElectronico) {
+            this.correoElectronico = correoElectronico;
+        }
+
+        public void enviar() {
+            System.out.println("Enviando notificación al correo: " + correoElectronico);
+            System.out.println("Detalle del Pedido: " + pedido);
+        }
+
+        @Override
+        public String toString() {
+            return "Notificación [Pedido Número=" + pedido.getNumero() + ", Correo Electrónico=" + correoElectronico + "]";
+        }
+    }
+
+    // Método main para ejecutar el programa
+    public static void main(String[] args) {
+        // Crear un cliente
+        Cliente cliente = new Cliente("Juan Pérez", "Calle Falsa 123");
+
+        // Crear un pedido con algunos artículos
+        Pedido pedido = new Pedido(1001, Arrays.asList("Artículo A", "Artículo B", "Artículo C"));
+
+        // Crear un pago
+        Pago pago = new Pago(cliente, pedido, Pago.MetodoPago.TARJETA_CREDITO, pedido.getArticulos().size());
+
+        // Crear una notificación
+        Notificacion notificacion = new Notificacion(pedido, "juan.perez@example.com");
+
+        // Mostrar información
+        System.out.println(cliente);
+        System.out.println(pedido);
+        System.out.println(pago);
+        System.out.println(notificacion);
+
+        // Enviar notificación
+        notificacion.enviar();
+    }
+}
